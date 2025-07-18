@@ -22,6 +22,8 @@ public class RoomController {
 	@GetMapping("/rooms")
 	public String rooms(Model model) {
 		
+		System.out.println("[Controller] 호출 /rooms 경로");
+		
 		//호실정보
 		
 		//Controller -> Service -> DAO
@@ -30,9 +32,6 @@ public class RoomController {
 		//화면에 보여줄 호실 데이터 -> view 데이터 전달
 		model.addAttribute("roomList", roomList);
 		
-		Room r = new Room();
-		r.setFloor(0);
-		r.getBuildingName();
 		
 		return "room/rooms";
 	}
