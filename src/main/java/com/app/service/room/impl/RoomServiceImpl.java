@@ -42,7 +42,7 @@ public class RoomServiceImpl implements RoomService{
 		
 		
 		
-		return null;
+		return roomList;
 	}
 
 
