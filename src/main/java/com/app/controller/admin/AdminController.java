@@ -76,9 +76,12 @@ public class AdminController {
 
 		//int result = userService.saveUser(user);
 		int result = userService.saveCustomerUser(user);
-		System.out.println(result);
 		
-		return "admin/registerUser";
+		if(result > 0) {
+			return "redirect:/admin/users";
+		} else {
+			return "admin/registerUser";
+		}
 	}
 	
 	@GetMapping("/admin/users")
