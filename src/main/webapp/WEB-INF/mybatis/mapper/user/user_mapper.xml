@@ -28,4 +28,10 @@
 		WHERE id=#{id} AND pw=#{pw} AND user_type = #{userType}
 	</select>
 	
+	<update id="modifyPw" parameterType="User">
+		UPDATE T_USER
+		SET pw = #{pw}
+		WHERE id=#{id}
+	</update>
+	
 </mapper>

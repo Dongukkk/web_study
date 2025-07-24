@@ -1,5 +1,6 @@
 package com.app.controller.customer;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
@@ -102,6 +103,30 @@ public class CustomerController {
 		session.invalidate();
 		
 		return "redirect:/main";
+	}
+	
+	@GetMapping("/customer/modifyPw")
+	public String modifyPw(HttpServletRequest request, HttpSession session) {
+		
+		String loginUserId = (String)session.getAttribute("loginUserId");
+		User user = userService.findUserById(loginUserId);
+		System.out.println(user.getName());
+		request.setAttribute("user", user);
+		
+		return "customer/modifyPw";
+	}
+	
+	@PostMapping("/customer/modifyPw")
+	public String modifyPwAction(User user) {
+
+		int result = userService.modifyPw(user);
+
+		if(result > 0) {
+			return "redirect:/customer/mypage";
+		} else { //실패
+			return "customer/modifyPw";
+		}
+		
 	}
 	
 }
