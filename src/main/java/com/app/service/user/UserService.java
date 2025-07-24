@@ -19,4 +19,5 @@ public interface UserService {
 	
 	public int modifyPw(User user);
 
+	public int modifyUser(User user);
 }
