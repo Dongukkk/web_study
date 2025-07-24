@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.app.common.CommonCode;
 import com.app.dto.user.User;
 import com.app.service.user.UserService;
+import com.app.util.LoginManager;
 
 @Controller
 public class CustomerController {
@@ -66,7 +67,8 @@ public class CustomerController {
 			System.out.println("로그인 성공");
 			
 			//현재 로그인 성공한 사용자 아이디 -> session 영역에 저장
-			session.setAttribute("loginUserId", loginUser.getId());
+			//session.setAttribute("loginUserId", loginUser.getId());
+			LoginManager.setSessionLoginUserId(session, loginUser.getId());
 			
 			//return "redirect:/customer/mypage"; //로그인 성공한 후, 마이페이지로 이동
 			return "redirect:/main"; //로그인 성공한 후, 메인 페이지로
@@ -80,9 +82,11 @@ public class CustomerController {
 		
 		//로그인을 했으면, 로그인 한 사용자의 정보를 보여주는 마이페이지
 		
-		if(session.getAttribute("loginUserId") != null) { //로그인이 된 상태
+		//if(session.getAttribute("loginUserId") != null) { //로그인이 된 상태
+		if(LoginManager.isLogin(session)) {
 			
-			String loginUserId = (String)session.getAttribute("loginUserId");
+			//String loginUserId = (String)session.getAttribute("loginUserId");
+			String loginUserId = LoginManager.getLoginUserId(session);
 			
 			//로그인 된 사용자 ID (세션에 저장되어있음)
 			User user = userService.findUserById(loginUserId);
@@ -117,10 +121,12 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customer/modifyPw")
-	public String modifyPwAction(User user) {
+	public String modifyPwAction(User user, HttpSession session) {
 
+		
+		user.setId( LoginManager.getLoginUserId(session));
+		
 		int result = userService.modifyPw(user);
-
 		if(result > 0) {
 			return "redirect:/customer/mypage";
 		} else { //실패
