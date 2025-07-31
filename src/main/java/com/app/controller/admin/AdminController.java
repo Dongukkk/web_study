@@ -159,6 +159,14 @@ public class AdminController {
 //		}
 		System.out.println(user.toString());
 		
+		//서버에서 Insert 처리전에 유효성 검증
+		if(user.getId() == null || user.getId().trim() == "") {
+			return "admin/registerUser";
+		}
+		
+		if(user.getId().length() <2 || user.getId().length() > 15) {
+			return "admin/registerUser";
+		}
 
 		//int result = userService.saveUser(user);
 		int result = userService.saveCustomerUser(user);

@@ -14,13 +14,12 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		System.out.println("여기는 인터셉터 preHandle");
-		//로그인 안했으면? 진행 X -> 로그인 부터 해라~
-		if(LoginManager.isLogin(request) == false) { //로그인 안한 상태!
-			response.sendRedirect("/customer/signin"); //로그인 화면으로 리다이렉트
-			//이후 과정 진행 X
-			return false;
-		}
+		/*
+		 * System.out.println("여기는 인터셉터 preHandle"); //로그인 안했으면? 진행 X -> 로그인 부터 해라~
+		 * if(LoginManager.isLogin(request) == false) { //로그인 안한 상태!
+		 * response.sendRedirect("/customer/signin"); //로그인 화면으로 리다이렉트 //이후 과정 진행 X
+		 * return false; }
+		 */
 		//로그인 했으면? 그냥 진행
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
@@ -28,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("여기는 인터셉터 postHandle");
+		/* System.out.println("여기는 인터셉터 postHandle"); */
 		
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
@@ -36,7 +35,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("여기는 인터셉터 afterCompletion");
+		/* System.out.println("여기는 인터셉터 afterCompletion"); */
 		
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
