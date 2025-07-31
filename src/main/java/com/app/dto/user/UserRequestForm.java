@@ -1,5 +1,8 @@
 package com.app.dto.user;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserRequestForm { 
 	//특정 화면에서 요청 들어온 데이터를 담아야하는 용도 DTO
 
@@ -8,8 +11,9 @@ public class UserRequestForm {
 	String id;
 	
 	//입력 길이 제한
-	@Size(min = 8, max = 12, message = "비번 길이 확인하라고")
 	String pw;
+	
+	@NotBlank(message = "이거 이름 필순데?")
 	String name;
 	String userType;
 }
