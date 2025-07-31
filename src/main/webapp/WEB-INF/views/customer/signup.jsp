@@ -26,6 +26,11 @@
 			</c:if>
 		</spring:hasBindErrors>
 		
+		<c:if test="${userValidError.id != null}">
+			<p class="error-msg">${userValidError.id}</p>
+		</c:if>
+			
+		
 		<button type="button" id="btn_checkDupId">중복체크</button>
 		<p id="checkDupIdMsg"></p>
 		
@@ -36,6 +41,11 @@
 				<p class="error-msg">${errors.getFieldError('pw').defaultMessage}</p>
 			</c:if>
 		</spring:hasBindErrors>
+		
+		<c:if test="${userValidError.pw != null}">
+			<p class="error-msg">${userValidError.pw}</p>
+		</c:if>
+		
 		<label>이름<input type="text" name="name"value="${user.name}"></label><br>
 
 		<br>
