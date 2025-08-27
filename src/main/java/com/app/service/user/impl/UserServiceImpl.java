@@ -1,5 +1,6 @@
 package com.app.service.user.impl;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.app.dto.user.User;
 import com.app.dto.user.UserProfileImage;
 import com.app.dto.user.UserSearchCondition;
 import com.app.service.user.UserService;
+import com.app.util.SHA256Encryptor;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -44,8 +46,22 @@ public class UserServiceImpl implements UserService{
 	public int saveCustomerUser(User user) {
 		//사용자 계정 추가 할 때 필요한 체크 로직....
 		
+		//UserValidError userValidError = new UserValideError();
+		//if(UserCustomValidator.validate(user, userValidError)==false) {
+		
+		
 //		user.setUserType("CUS");
 		user.setUserType(CommonCode.USER_USERTYPE_CUSTOMER);
+		
+		//비밀번호 암호화
+		try {
+			String encPw = SHA256Encryptor.encrypt(user.getPw());
+			user.setPw(encPw);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		int result = userDAO.saveUser(user);
 		
 		return result;
@@ -84,7 +100,9 @@ public class UserServiceImpl implements UserService{
 		if( loginUser != null && loginUser.getPw().equals(user.getPw()) 
 				&& loginUser.getUserType().equals(user.getUserType())) {
 			return loginUser;
+			
 		}
+		
 		//	checkUserLogin 메소드 호출 -> return null? id, pw 틀렸다
 		//		return user객체 ? -> 맞다!
 		
@@ -98,6 +116,17 @@ public class UserServiceImpl implements UserService{
 		
 		// 케이스 2) DB에서 쿼리를 통해, 정상여부 체크 로직 수행
 		// userDAO.checkUserLogin -> sql query 상에서 id, pw, userType 동일한 경우를 체크
+		
+		//비밀번호 암호화
+		try {
+			String encPw = SHA256Encryptor.encrypt(user.getPw());
+			user.setPw(encPw);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+				
 		User loginUser = userDAO.checkUserLogin(user);
 		
 		return loginUser;
